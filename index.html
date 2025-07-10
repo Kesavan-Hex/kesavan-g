@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kesavan G - Edge Systems & Mobile Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+body { margin: 0; font-family: 'Inter', sans-serif; background: #0b0b0c; color: #ffffff; overflow-x: hidden; }
+canvas#bg { position: fixed; top: 0; left: 0; z-index: -1; }
+header { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 1rem; position: relative; overflow: hidden; }
+header h1 {
+    font-size: 3rem;
+    color: #fff;
+    position: relative;
+    animation: glitch 1s infinite;
+}
+@keyframes glitch {
+    0% { text-shadow: 2px 0 red, -2px 0 blue; }
+    20% { text-shadow: -2px 0 red, 2px 0 blue; }
+    40% { text-shadow: 2px 0 red, -2px 0 blue; }
+    60% { text-shadow: -2px 0 red, 2px 0 blue; }
+    80% { text-shadow: 2px 0 red, -2px 0 blue; }
+    100% { text-shadow: -2px 0 red, 2px 0 blue; }
+}
+header p { opacity: 0; transform: translateY(20px); animation: fadeInUp 1s ease forwards; animation-delay: 0.5s; max-width: 600px; color: #aaa; }
+@keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+section { padding: 4rem 1rem; max-width: 800px; margin: auto; text-align: center; opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
+section.visible { opacity: 1; transform: translateY(0); }
+section h2 { font-size: 2rem; margin-bottom: 1rem; color: #fff; }
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1rem; justify-items: center; align-items: center; margin-top: 2rem; }
+.skill-item { display: flex; flex-direction: column; align-items: center; color: #aaa; transition: transform 0.3s, color 0.3s; }
+.skill-item:hover { transform: scale(1.1); color: #fff; }
+.skill-item i { font-size: 2rem; margin-bottom: 0.5rem; }
+footer { text-align: center; padding: 2rem; font-size: 0.9rem; color: #666; }
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<header>
+    <h1>Kesavan G</h1>
+    <p>Edge Systems & Mobile Developer crafting scalable systems and seamless mobile experiences with clarity and precision.</p>
+</header>
+<section id="about">
+    <h2>About</h2>
+    <p>I am a dedicated Edge Systems and Flutter developer focusing on low-latency, scalable systems and cross-platform mobile applications, crafting premium user experiences through elegant architecture.</p>
+</section>
+<section id="skills">
+    <h2>Skills</h2>
+    <div class="skills-grid">
+        <div class="skill-item"><i class="fa-brands fa-rust"></i>Rust</div>
+        <div class="skill-item"><i class="fa-brands fa-python"></i>Python</div>
+        <div class="skill-item"><i class="fa-brands fa-google-play"></i>Flutter</div>
+        <div class="skill-item"><i class="fa-brands fa-linux"></i>Linux</div>
+        <div class="skill-item"><i class="fa-solid fa-satellite"></i>MQTT</div>
+        <div class="skill-item"><i class="fa-solid fa-microchip"></i>Kernel</div>
+        <div class="skill-item"><i class="fa-brands fa-android"></i>AOSP</div>
+        <div class="skill-item"><i class="fa-brands fa-android"></i>Android Core</div>
+        <div class="skill-item"><i class="fa-brands fa-apple"></i>iOS</div>
+        <div class="skill-item"><i class="fa-brands fa-korvue"></i>Kotlin</div>
+    </div>
+</section>
+<section id="contact">
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:kesavang091999@gmail.com" style="color: inherit;">kesavang091999@gmail.com</a></p>
+    <p><a href="https://www.linkedin.com/in/kesavan-g-505b43293/" target="_blank" style="color: inherit;">LinkedIn</a> | <a href="https://github.com/kesavan-hex" target="_blank" style="color: inherit;">GitHub</a></p>
+</section>
+<footer>&copy; 2025 Kesavan G</footer>
+<script>
+const sections = document.querySelectorAll('section');
+const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } }); }, { threshold: 0.1 });
+sections.forEach(section => observer.observe(section));
+const c = document.getElementById('bg');
+const ctx = c.getContext('2d');
+c.width = window.innerWidth;
+c.height = window.innerHeight;
+const particles = [];
+const mouse = { x: c.width / 2, y: c.height / 2 };
+for (let i = 0; i < 100; i++) { particles.push({ x: Math.random() * c.width, y: Math.random() * c.height, r: Math.random() * 2 + 1, d: Math.random() * 2 }); }
+function draw() { ctx.clearRect(0, 0, c.width, c.height); ctx.fillStyle = 'rgba(255,255,255,0.3)'; particles.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill(); }); update(); requestAnimationFrame(draw); }
+function update() { particles.forEach(p => { p.y += p.d; if (p.y > c.height) { p.y = 0; p.x = Math.random() * c.width; } const dx = p.x - mouse.x; const dy = p.y - mouse.y; const dist = Math.sqrt(dx * dx + dy * dy); if (dist < 100) { p.x += dx / dist; p.y += dy / dist; } }); }
+draw();
+window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+window.addEventListener('resize', () => { c.width = window.innerWidth; c.height = window.innerHeight; });
+</script>
+</body>
+</html>
