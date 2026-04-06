@@ -1,1072 +1,637 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Kesavan G — Edge Systems & Mobile Developer</title>
-<meta name="description" content="Personal website of Kesavan G – Android ROM developer, Flutter app builder, Python automation expert, and container enthusiast." />
-<meta name="keywords" content="Kesavan G, Android ROM developer, Flutter developer, Python automation, Rust developer,Go developer, edge computing, Corebytes, Bills2Go, BizzNet" />
-
-
-<meta property="og:type" content="website" />
-<meta property="og:title" content="Kesavan G — Edge Systems & Mobile Developer" />
-<meta property="og:description" content="Crafting scalable systems and seamless mobile experiences with clarity and precision." />
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Kesavan G",
-  "jobTitle": "Edge Systems & Mobile Developer",
-  "email": "kesavang091999@gmail.com",
-  "url": "https://github.com/kesavan-hex",
-  "sameAs": [
-    "https://www.linkedin.com/in/kesavan-g-505b43293/",
-    "https://github.com/kesavan-hex"
-  ]
-}
-</script>
-
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-<link rel="icon" href="favicon.ico" type="image/x-icon" />
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kesavan G</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
 <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#04070a;--bg1:#070e14;--bg2:#0a1520;
+  --sep:rgba(255,255,255,0.06);
+  --blue:#38bdf8;--green:#3ddc84;--amber:#fbbf24;--purple:#a78bfa;
+  --text:#6b8aa0;--bright:#dde8f4;--dim:#1a3550;
+}
+html{scroll-behavior:smooth}
+body{font-family:'JetBrains Mono',monospace;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 
-:root {
-  --bg:         #07080a;
-  --bg2:        #0d0f14;
-  --surface:    #131720;
-  --border:     #1e2535;
-  --accent:     #00e5ff;
-  --accent2:    #7c3aed;
-  --accent3:    #f59e0b;
-  --text:       #e8eaf0;
-  --muted:      #5a6480;
-  --muted2:     #8892a4;
-  --font-display: 'Sora', sans-serif;
-  --font-mono:    'Space Mono', monospace;
-  --nav-h:      64px;
-  --radius:     12px;
-  --glow:       0 0 40px rgba(0,229,255,0.15);
-  --transition: cubic-bezier(0.23, 1, 0.32, 1);
-}
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:none}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; overflow-x: hidden; }
-body {
-  font-family: var(--font-display);
-  background: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-  cursor: none;
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  height:50px;display:flex;align-items:center;
+  background:rgba(4,7,10,0.9);border-bottom:1px solid var(--sep);
+  backdrop-filter:blur(24px);padding:0 40px;
+  animation:nav-drop .7s cubic-bezier(.22,1,.36,1) both;
 }
-a { color: inherit; text-decoration: none; }
-img { max-width: 100%; display: block; }
-::selection { background: rgba(0,229,255,0.25); color: #fff; }
+@keyframes nav-drop{from{transform:translateY(-100%);opacity:0}to{transform:none;opacity:1}}
+.nav-id{
+  font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;
+  letter-spacing:2px;color:var(--blue);margin-right:40px;cursor:default;position:relative;
+}
+.nav-id::after{
+  content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,var(--blue),var(--green),var(--blue));
+  background-size:200%;animation:shimmer-line 2.5s ease infinite;
+}
+@keyframes shimmer-line{0%{background-position:200%}100%{background-position:-200%}}
+.nav-addr{color:var(--dim);font-size:0.74rem;letter-spacing:1px}
+.nav-r{margin-left:auto;display:flex;gap:32px}
+.nav-r a{
+  color:var(--text);text-decoration:none;font-size:0.78rem;letter-spacing:1.5px;
+  transition:color .2s;position:relative;overflow:hidden;padding-bottom:2px;
+}
+.nav-r a::before{
+  content:attr(data-label);position:absolute;bottom:-100%;left:0;
+  color:var(--blue);font-size:0.78rem;letter-spacing:1.5px;
+  transition:bottom .2s ease;white-space:nowrap;
+}
+.nav-r a::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform .3s ease;
+}
+.nav-r a:hover{color:transparent}
+.nav-r a:hover::before{bottom:2px}
+.nav-r a:hover::after{transform:scaleX(1)}
 
-.skip-link {
-  position: fixed; top: -999px; left: 1rem; z-index: 9999;
-  background: var(--accent); color: #000; padding: 0.5rem 1rem;
-  border-radius: 4px; font-weight: 700; transition: top 0.2s;
-}
-.skip-link:focus { top: 1rem; }
+main{padding-top:50px;position:relative;z-index:10}
+.wrap{max-width:980px;margin:0 auto;padding:0 32px}
 
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:70px 0}
 
-#cursor-dot, #cursor-ring {
-  position: fixed; top: 0; left: 0;
-  pointer-events: none; z-index: 9998;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  transition: opacity 0.3s;
+.dump-panel{
+  border:1px solid var(--sep);border-radius:6px;
+  background:var(--bg1);overflow:hidden;position:relative;
 }
-#cursor-dot {
-  width: 6px; height: 6px;
-  background: var(--accent);
-  transition: transform 0.1s;
+/* corner accents */
+.dump-panel::before{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  border-radius:6px;pointer-events:none;z-index:2;
+  background:
+    linear-gradient(var(--blue),var(--blue)) top left / 40px 1px no-repeat,
+    linear-gradient(var(--blue),var(--blue)) top left / 1px 40px no-repeat,
+    linear-gradient(var(--blue),var(--blue)) top right / 40px 1px no-repeat,
+    linear-gradient(var(--blue),var(--blue)) top right / 1px 40px no-repeat,
+    linear-gradient(var(--blue),var(--blue)) bottom left / 40px 1px no-repeat,
+    linear-gradient(var(--blue),var(--blue)) bottom left / 1px 40px no-repeat,
+    linear-gradient(var(--blue),var(--blue)) bottom right / 40px 1px no-repeat,
+    linear-gradient(var(--blue),var(--blue)) bottom right / 1px 40px no-repeat;
+  animation:corner-pulse 3s ease infinite;opacity:.6;
 }
-#cursor-ring {
-  width: 36px; height: 36px;
-  border: 1.5px solid rgba(0,229,255,0.5);
-  transition: transform 0.12s var(--transition), width 0.3s, height 0.3s, border-color 0.3s;
+@keyframes corner-pulse{0%,100%{opacity:.35}50%{opacity:.9}}
+/* scan sweep */
+.scan{
+  position:absolute;top:-2px;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(56,189,248,.55),transparent);
+  animation:scan-sweep 4.5s linear infinite;z-index:3;pointer-events:none;
 }
-body:has(a:hover) #cursor-ring,
-body:has(button:hover) #cursor-ring {
-  width: 52px; height: 52px; border-color: var(--accent);
-}
+@keyframes scan-sweep{from{top:-2px}to{top:calc(100% + 2px)}}
 
+.dp-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:11px 24px;background:var(--bg2);border-bottom:1px solid var(--sep);
+  font-size:0.82rem;color:var(--dim);letter-spacing:1.5px;
+}
+.dp-bar-r{display:flex;gap:18px}
+.dbi{display:flex;align-items:center;gap:7px;font-size:0.76rem}
+.dot-live{width:7px;height:7px;border-radius:50%}
+.dot-live.g{background:var(--green);animation:ping 1.6s ease infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(61,220,132,.7)}70%{box-shadow:0 0 0 8px rgba(61,220,132,0)}100%{box-shadow:0 0 0 0 rgba(61,220,132,0)}}
 
-#scroll-bar {
-  position: fixed; top: 0; left: 0; height: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  z-index: 1000; width: 0%; transition: width 0.1s linear;
-}
+.dp-body{display:grid;grid-template-columns:1fr 1fr}
+.dp-col{padding:32px}
+.dp-col:first-child{border-right:1px solid var(--sep)}
 
+/* NAME char-by-char */
+.hero-name{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(2.8rem,5.5vw,4.4rem);
+  font-weight:700;line-height:1;letter-spacing:-1px;
+  margin-bottom:8px;cursor:default;display:flex;flex-wrap:wrap;
+}
+.hero-name .char{
+  display:inline-block;color:#fff;
+  opacity:0;transform:translateY(20px) rotateX(90deg);
+  animation:char-in .5s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero-name .char.blue{color:var(--blue)}
+@keyframes char-in{to{opacity:1;transform:none}}
 
-body::after {
-  content: '';
-  position: fixed; inset: 0; z-index: 9990;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  opacity: 0.4;
-}
+.hero-handle{font-size:0.82rem;color:var(--dim);letter-spacing:2px;margin-bottom:22px;opacity:0;animation:fade-up .6s ease 1.1s forwards}
+.hero-handle b{color:var(--amber)}
+@keyframes fade-up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
-canvas#bg {
-  position: fixed; top: 0; left: 0; z-index: -1;
-  width: 100%; height: 100%;
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px;opacity:0;animation:fade-up .6s ease 1.25s forwards}
+.tag{
+  font-size:0.74rem;letter-spacing:1.5px;padding:5px 13px;border-radius:2px;border:1px solid;
+  transition:transform .2s;cursor:default;position:relative;overflow:hidden;
 }
+.tag::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.09),transparent);
+  transform:translateX(-100%);transition:transform .5s ease;
+}
+.tag:hover::before{transform:translateX(100%)}
+.tag:hover{transform:translateY(-3px)}
+.tag.b{color:var(--blue);border-color:rgba(56,189,248,.22);background:rgba(56,189,248,.07)}
+.tag.g{color:var(--green);border-color:rgba(61,220,132,.22);background:rgba(61,220,132,.06)}
+.tag.a{color:var(--amber);border-color:rgba(251,191,36,.22);background:rgba(251,191,36,.06)}
 
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  height: var(--nav-h);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 2.5rem;
-  transition: background 0.4s, backdrop-filter 0.4s, border-bottom 0.4s;
+.bio-rows{border-top:1px solid var(--sep);padding-top:20px}
+.br{
+  display:flex;gap:12px;padding:6px 0;font-size:0.82rem;align-items:baseline;
+  border-bottom:1px solid rgba(255,255,255,.025);
+  opacity:0;animation:fade-left .5s ease forwards;
 }
-nav.scrolled {
-  background: rgba(7,8,10,0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-}
-.nav-logo {
-  font-family: var(--font-mono);
-  font-size: 1.1rem;
-  color: var(--accent);
-  letter-spacing: 0.05em;
-}
-.nav-logo span { color: var(--text); }
-.nav-links {
-  display: flex; gap: 2.5rem; list-style: none;
-}
-.nav-links a {
-  font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--muted2); font-weight: 600;
-  transition: color 0.25s;
-  position: relative;
-}
-.nav-links a::after {
-  content: ''; position: absolute; bottom: -4px; left: 0;
-  width: 0; height: 1px; background: var(--accent);
-  transition: width 0.3s var(--transition);
-}
-.nav-links a:hover { color: var(--text); }
-.nav-links a:hover::after { width: 100%; }
+.br:last-child{border:none}
+@keyframes fade-left{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
+.br-ptr{color:var(--dim);font-size:0.72rem;min-width:84px;flex-shrink:0}
+.br-k{color:var(--blue)}.br-v{color:var(--green)}.br-s{color:var(--amber)}
 
-.nav-hamburger {
-  display: none; flex-direction: column; gap: 5px;
-  background: none; border: none; cursor: none; padding: 4px;
+/* HEX col */
+.hd-colhead{display:flex;gap:14px;font-size:0.72rem;color:var(--dim);letter-spacing:1.5px;margin-bottom:12px}
+.hd-colhead span:last-child{margin-left:auto}
+.hrow{
+  display:flex;gap:14px;padding:5px 0;
+  border-bottom:1px solid rgba(255,255,255,.025);font-size:0.76rem;
+  opacity:0;animation:hrow-in .35s ease forwards;
 }
-.nav-hamburger span {
-  display: block; width: 22px; height: 1.5px; background: var(--text);
-  transition: transform 0.3s, opacity 0.3s;
-}
-.nav-mobile {
-  display: none; position: fixed; inset: 0; z-index: 99;
-  background: rgba(7,8,10,0.97); backdrop-filter: blur(30px);
-  flex-direction: column; align-items: center; justify-content: center;
-  gap: 2.5rem; opacity: 0; pointer-events: none;
-  transition: opacity 0.3s;
-}
-.nav-mobile.open { opacity: 1; pointer-events: all; display: flex; }
-.nav-mobile a {
-  font-size: 2rem; font-weight: 700; color: var(--muted2);
-  transition: color 0.3s;
-}
-.nav-mobile a:hover { color: var(--accent); }
+.hrow:last-child{border:none}
+@keyframes hrow-in{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+.ha{color:var(--dim);font-size:0.7rem;min-width:78px;flex-shrink:0}
+.hh{color:var(--green);font-size:0.72rem;flex:1;letter-spacing:.4px;opacity:.85}
+.hasc{color:rgba(160,140,255,.8);font-size:0.72rem;min-width:96px;text-align:right}
 
-#hero {
-  min-height: 100vh;
-  display: flex; flex-direction: column;
-  justify-content: center; align-items: flex-start;
-  padding: 0 clamp(1.5rem, 8vw, 8rem);
-  position: relative;
+/* CTA */
+.dp-cta{
+  padding:20px 32px;border-top:1px solid var(--sep);
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
 }
-.hero-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.78rem; letter-spacing: 0.25em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 1.5rem;
-  opacity: 0; animation: fadeUp 0.8s var(--transition) 0.2s forwards;
+.btn{
+  font-family:'JetBrains Mono',monospace;font-size:0.82rem;letter-spacing:1px;
+  padding:11px 24px;border-radius:3px;border:1px solid;
+  text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+  transition:all .22s;position:relative;overflow:hidden;
 }
-.hero-name {
-  font-size: clamp(3.2rem, 9vw, 8rem);
-  font-weight: 800; line-height: 0.95;
-  letter-spacing: -0.03em; color: #fff;
-  opacity: 0; animation: fadeUp 0.9s var(--transition) 0.4s forwards;
+.btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);
+  transform:translateX(-100%);transition:transform .4s ease;
 }
-.hero-name .accent-char { color: var(--accent); }
-.hero-roles {
-  margin-top: 1.2rem;
-  font-size: clamp(1rem, 2.5vw, 1.4rem);
-  color: var(--muted2); font-weight: 300; min-height: 2em;
-  opacity: 0; animation: fadeUp 0.9s var(--transition) 0.6s forwards;
-}
-.hero-roles .typed-cursor {
-  display: inline-block; width: 2px; height: 1.1em;
-  background: var(--accent); margin-left: 3px;
-  vertical-align: middle; animation: blink 0.85s step-end infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-.hero-desc {
-  margin-top: 2rem; max-width: 520px;
-  font-size: 1rem; line-height: 1.8; color: var(--muted2);
-  opacity: 0; animation: fadeUp 0.9s var(--transition) 0.8s forwards;
-}
-.hero-ctas {
-  margin-top: 3rem; display: flex; gap: 1rem; flex-wrap: wrap;
-  opacity: 0; animation: fadeUp 0.9s var(--transition) 1s forwards;
-}
-.btn {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  padding: 0.75rem 1.75rem; border-radius: var(--radius);
-  font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em;
-  text-transform: uppercase; transition: all 0.3s var(--transition);
-  cursor: none;
-}
-.btn-primary {
-  background: var(--accent); color: #000;
-  box-shadow: 0 0 30px rgba(0,229,255,0.3);
-}
-.btn-primary:hover {
-  background: #fff; box-shadow: 0 0 50px rgba(0,229,255,0.5);
-  transform: translateY(-2px);
-}
-.btn-outline {
-  border: 1px solid var(--border); color: var(--muted2);
-  background: transparent;
-}
-.btn-outline:hover {
-  border-color: var(--accent); color: var(--accent);
-  background: rgba(0,229,255,0.05); transform: translateY(-2px);
-}
-.hero-scroll {
-  position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-  opacity: 0; animation: fadeUp 0.9s var(--transition) 1.4s forwards;
-}
-.hero-scroll span {
-  font-family: var(--font-mono); font-size: 0.65rem;
-  letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
-}
-.scroll-line {
-  width: 1px; height: 50px;
-  background: linear-gradient(to bottom, var(--accent), transparent);
-  animation: scrollPulse 2s ease infinite;
-}
-@keyframes scrollPulse { 0%,100%{opacity:0.4;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.15)} }
+.btn:hover::before{transform:translateX(100%)}
+.btn.p{background:var(--blue);color:var(--bg);border-color:var(--blue);font-weight:700}
+.btn.p:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(56,189,248,.3)}
+.btn.s{color:var(--green);border-color:rgba(61,220,132,.3)}
+.btn.s:hover{background:rgba(61,220,132,.08);border-color:var(--green);transform:translateY(-2px)}
+.uptime{margin-left:auto;font-size:0.76rem;color:var(--dim);letter-spacing:1px}
+.uptime span{color:var(--green)}
 
-.section {
-  padding: clamp(4rem, 10vw, 7rem) clamp(1.5rem, 8vw, 8rem);
-  max-width: 1100px; margin: auto;
-  opacity: 0; transform: translateY(50px);
-  transition: opacity 0.8s var(--transition), transform 0.8s var(--transition);
+/* SECTIONS */
+section{padding:88px 0;position:relative;z-index:10}
+.sec-bar{
+  display:flex;align-items:center;gap:14px;margin-bottom:44px;
+  font-size:0.78rem;letter-spacing:2px;color:var(--dim);
+  border-bottom:1px solid var(--sep);padding-bottom:14px;
 }
-.section.visible { opacity: 1; transform: translateY(0); }
+.sb-cmd{color:var(--blue)}.sb-arg{color:var(--amber)}.sb-r{margin-left:auto;font-size:0.74rem}
+.sb-cursor{
+  display:inline-block;width:8px;height:14px;background:var(--blue);
+  margin-left:4px;vertical-align:middle;animation:blink .9s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
-.section-label {
-  display: flex; align-items: center; gap: 1rem;
-  font-family: var(--font-mono); font-size: 0.72rem;
-  letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent);
-  margin-bottom: 0.75rem;
+/* SKILL CARDS */
+.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.rb{
+  background:var(--bg1);border:1px solid var(--sep);
+  border-radius:4px;overflow:hidden;
+  transition:box-shadow .3s,border-color .3s;position:relative;
 }
-.section-label::after {
-  content: ''; flex: 1; max-width: 80px; height: 1px;
-  background: linear-gradient(90deg, var(--accent), transparent);
+.rb.android:hover{border-color:rgba(61,220,132,.3);box-shadow:0 16px 48px rgba(61,220,132,.07)}
+.rb.python:hover{border-color:rgba(56,189,248,.3);box-shadow:0 16px 48px rgba(56,189,248,.07)}
+.rb.rust:hover{border-color:rgba(247,100,36,.3);box-shadow:0 16px 48px rgba(247,100,36,.07)}
+.rb.ops:hover{border-color:rgba(251,191,36,.28);box-shadow:0 16px 48px rgba(251,191,36,.07)}
+.rb-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 18px;background:rgba(0,0,0,.2);border-bottom:1px solid var(--sep);
 }
-.section-title {
-  font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
-  letter-spacing: -0.02em; color: #fff; margin-bottom: 1rem;
+.rb-name{color:var(--bright);font-size:0.84rem;letter-spacing:2px}
+.rb-addr{color:var(--dim);font-size:0.7rem}
+.rb-body{padding:16px 18px}
+.rr{display:flex;align-items:center;gap:12px;padding:5px 0}
+.rr-n{color:var(--dim);font-size:0.7rem;min-width:26px}
+.rr-bar-wrap{flex:1;height:20px;background:rgba(255,255,255,.03);border-radius:2px;position:relative;overflow:hidden}
+.rr-fill{height:100%;border-radius:2px;width:0;transition:width 1.6s cubic-bezier(.22,1,.36,1);position:relative}
+.rr-fill::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);
+  background-size:200%;animation:bar-shine 2.5s ease infinite;
 }
-.section-sub {
-  font-size: 1rem; color: var(--muted2); line-height: 1.8;
-  max-width: 600px;
-}
-.divider {
-  border: none; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border), transparent);
-  margin: 0;
-}
+@keyframes bar-shine{0%{background-position:200%}100%{background-position:-200%}}
+.rr-fill.b{background:rgba(56,189,248,.32)}
+.rr-fill.g{background:rgba(61,220,132,.3)}
+.rr-fill.r{background:rgba(247,90,36,.27)}
+.rr-fill.a{background:rgba(251,191,36,.27)}
+.rr-lbl{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:0.72rem;color:var(--bright);white-space:nowrap;pointer-events:none}
 
-.about-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 4rem; margin-top: 3rem; align-items: center;
+/* PROC MAP */
+.proc-wrap{background:var(--bg1);border:1px solid var(--sep);border-radius:4px;overflow:hidden}
+.pm-head{
+  display:grid;grid-template-columns:152px 68px 56px 1fr;gap:16px;
+  padding:10px 20px;background:rgba(0,0,0,.25);border-bottom:1px solid var(--sep);
+  font-size:0.72rem;color:var(--dim);letter-spacing:2px;
 }
-.about-text p {
-  font-size: 1rem; line-height: 1.9; color: var(--muted2);
-  margin-bottom: 1.2rem;
+.pm-row{
+  display:grid;grid-template-columns:152px 68px 56px 1fr;gap:16px;
+  padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.022);
+  font-size:0.8rem;align-items:center;
+  transition:background .2s,padding-left .25s;cursor:default;position:relative;overflow:hidden;
 }
-.about-text p strong { color: var(--text); font-weight: 600; }
-.about-stats {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+.pm-row::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:var(--blue);transform:scaleY(0);transition:transform .25s ease;transform-origin:bottom;
 }
-.stat-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  text-align: center;
-  transition: border-color 0.3s, transform 0.3s;
-  position: relative; overflow: hidden;
-}
-.stat-card::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(circle at 50% 0%, rgba(0,229,255,0.06) 0%, transparent 70%);
-  opacity: 0; transition: opacity 0.3s;
-}
-.stat-card:hover { border-color: var(--accent); transform: translateY(-4px); }
-.stat-card:hover::before { opacity: 1; }
-.stat-num {
-  font-size: 2.5rem; font-weight: 800; color: var(--accent);
-  font-family: var(--font-mono); line-height: 1;
-}
-.stat-lbl { font-size: 0.75rem; color: var(--muted); margin-top: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.pm-row:hover::before{transform:scaleY(1)}
+.pm-row:hover{background:rgba(56,189,248,.03);padding-left:26px}
+.pm-row:last-child{border:none}
+.pm-range{color:var(--dim);font-size:0.72rem}
+.perm{font-size:0.72rem;padding:3px 9px;border-radius:2px;display:inline-block;letter-spacing:.5px}
+.perm.rx{background:rgba(61,220,132,.08);color:var(--green)}
+.perm.rw{background:rgba(251,191,36,.07);color:var(--amber)}
+.perm.ro{background:rgba(56,189,248,.08);color:var(--blue)}
+.pm-sz{color:var(--text);font-size:0.72rem}
+.pm-lbl{color:var(--bright);font-size:0.82rem}
+.pm-sub{color:var(--dim);font-size:0.7rem;margin-top:3px}
 
-.skills-container { margin-top: 3rem; }
-.skills-category { margin-bottom: 3rem; }
-.skills-cat-title {
-  font-family: var(--font-mono); font-size: 0.72rem;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 1.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border);
+/* CONTACT */
+.ct-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.ct-card{
+  background:var(--bg1);border:1px solid var(--sep);
+  border-radius:4px;padding:28px;position:relative;overflow:hidden;
+  transition:border-color .3s,transform .3s;
 }
-.skills-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 1rem;
+.ct-card::before{
+  content:'';position:absolute;top:0;left:-100%;right:101%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--blue),var(--green),transparent);
+  transition:left .5s ease,right .5s ease;
 }
-.skill-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.25rem 1rem;
-  display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
-  transition: all 0.3s var(--transition);
-  position: relative; overflow: hidden; cursor: default;
+.ct-card:hover::before{left:0;right:0}
+.ct-card:hover{border-color:rgba(56,189,248,.2);transform:translateY(-4px)}
+.ct-lbl{font-size:0.72rem;color:var(--dim);letter-spacing:2px;margin-bottom:12px}
+.ct-val{color:var(--bright);font-size:0.92rem;margin-bottom:5px}
+.ct-sub{font-size:0.75rem;color:var(--dim);margin-bottom:18px}
+.ct-link{
+  font-size:0.8rem;color:var(--blue);text-decoration:none;
+  border:1px solid rgba(56,189,248,.2);padding:9px 18px;border-radius:2px;
+  display:inline-flex;align-items:center;gap:7px;transition:all .2s;
 }
-.skill-card::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-  height: 2px; background: var(--accent); transform: scaleX(0);
-  transition: transform 0.3s var(--transition);
-}
-.skill-card:hover {
-  border-color: rgba(0,229,255,0.4);
-  transform: translateY(-5px);
-  box-shadow: var(--glow);
-}
-.skill-card:hover::after { transform: scaleX(1); }
-.skill-card i, .skill-card .skill-svg {
-  font-size: 1.8rem; color: var(--muted2);
-  transition: color 0.3s; width: 2rem; height: 2rem;
-  display: flex; align-items: center; justify-content: center;
-}
-.skill-card:hover i, .skill-card:hover .skill-svg { color: var(--accent); }
-.skill-name { font-size: 0.78rem; font-weight: 600; color: var(--muted2); letter-spacing: 0.05em; text-align: center; }
-.skill-card:hover .skill-name { color: var(--text); }
+.ct-link:hover{background:rgba(56,189,248,.08);border-color:var(--blue);transform:translateX(3px)}
+.ct-link.g{color:var(--green);border-color:rgba(61,220,132,.2)}
+.ct-link.g:hover{background:rgba(61,220,132,.07);border-color:var(--green)}
 
-.skill-bar { width: 100%; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
-.skill-bar-fill { height: 100%; background: var(--accent); border-radius: 2px; width: 0; transition: width 1.2s var(--transition); }
-.section.visible .skill-bar-fill { width: var(--w); }
-
-
-.projects-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.5rem; margin-top: 3rem;
-}
-.project-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 16px; padding: 2rem;
-  display: flex; flex-direction: column; gap: 1rem;
-  transition: all 0.4s var(--transition);
-  position: relative; overflow: hidden;
-}
-.project-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  transform: scaleX(0); transition: transform 0.4s var(--transition);
-}
-.project-card:hover {
-  border-color: rgba(0,229,255,0.3);
-  transform: translateY(-6px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5), var(--glow);
-}
-.project-card:hover::before { transform: scaleX(1); }
-.project-icon {
-  width: 44px; height: 44px; border-radius: 10px;
-  background: linear-gradient(135deg, rgba(0,229,255,0.15), rgba(124,58,237,0.15));
-  border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; color: var(--accent);
-}
-.project-name { font-size: 1.1rem; font-weight: 700; color: #fff; }
-.project-desc { font-size: 0.87rem; line-height: 1.7; color: var(--muted2); flex: 1; }
-.project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.tag {
-  font-family: var(--font-mono); font-size: 0.68rem;
-  letter-spacing: 0.08em; color: var(--accent);
-  background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.15);
-  padding: 0.2rem 0.6rem; border-radius: 4px;
-}
-.project-links { display: flex; gap: 1rem; margin-top: auto; }
-.project-link {
-  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--muted);
-  display: flex; align-items: center; gap: 0.4rem;
-  transition: color 0.3s;
-}
-.project-link:hover { color: var(--accent); }
-.project-link i { font-size: 0.9rem; }
-
-.timeline { margin-top: 3rem; position: relative; }
-.timeline::before {
-  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-  width: 1px; background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
-}
-.tl-item {
-  position: relative; padding: 0 0 3rem 2.5rem;
-  transition: opacity 0.4s;
-}
-.tl-item:last-child { padding-bottom: 0; }
-.tl-dot {
-  position: absolute; left: -5px; top: 6px;
-  width: 11px; height: 11px; border-radius: 50%;
-  background: var(--accent); border: 2px solid var(--bg);
-  box-shadow: 0 0 10px var(--accent);
-  transition: transform 0.3s;
-}
-.tl-item:hover .tl-dot { transform: scale(1.5); }
-.tl-date {
-  font-family: var(--font-mono); font-size: 0.7rem;
-  letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 0.4rem;
-}
-.tl-title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.2rem; }
-.tl-company {
-  font-size: 0.85rem; color: var(--accent); margin-bottom: 0.75rem; font-weight: 600;
-}
-.tl-desc { font-size: 0.9rem; line-height: 1.75; color: var(--muted2); }
-
-.contact-wrapper {
-  margin-top: 3rem;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;
-}
-.contact-info h3 {
-  font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 1rem;
-}
-.contact-info p {
-  font-size: 0.95rem; line-height: 1.9; color: var(--muted2); margin-bottom: 2rem;
-}
-.contact-list { display: flex; flex-direction: column; gap: 1rem; }
-.contact-item {
-  display: flex; align-items: center; gap: 1rem;
-  padding: 1rem 1.25rem;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius);
-  transition: all 0.3s var(--transition);
-}
-.contact-item:hover {
-  border-color: var(--accent); transform: translateX(6px);
-  box-shadow: var(--glow);
-}
-.contact-item i { font-size: 1.1rem; color: var(--accent); width: 1.2rem; text-align: center; }
-.contact-item-body { display: flex; flex-direction: column; }
-.contact-item-label { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
-.contact-item-val { font-size: 0.9rem; color: var(--text); margin-top: 0.1rem; }
-.contact-social { display: flex; gap: 1rem; margin-top: 2rem; }
-.social-btn {
-  width: 44px; height: 44px; border-radius: 10px;
-  background: var(--surface); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem; color: var(--muted2);
-  transition: all 0.3s var(--transition);
-}
-.social-btn:hover { background: var(--accent); color: #000; border-color: var(--accent); transform: translateY(-3px); }
-
-.contact-form-side {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 16px; padding: 2rem;
-}
-.form-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 1.5rem; }
-.form-group { margin-bottom: 1.25rem; }
-.form-group label {
-  display: block; font-size: 0.72rem; letter-spacing: 0.15em;
-  text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem;
-  font-family: var(--font-mono);
-}
-.form-control {
-  width: 100%; background: var(--bg); border: 1px solid var(--border);
-  border-radius: 8px; padding: 0.75rem 1rem;
-  font-family: var(--font-display); font-size: 0.9rem; color: var(--text);
-  transition: border-color 0.3s, box-shadow 0.3s; outline: none;
-  resize: none;
-}
-.form-control::placeholder { color: var(--muted); }
-.form-control:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,229,255,0.08); }
-.form-btn {
-  width: 100%; padding: 0.85rem;
-  background: linear-gradient(135deg, var(--accent), #0099bb);
-  border: none; border-radius: 8px;
-  font-family: var(--font-display); font-size: 0.85rem; font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase; color: #000;
-  cursor: none; transition: all 0.3s var(--transition);
-}
-.form-btn:hover {
-  background: linear-gradient(135deg, #fff, var(--accent));
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0,229,255,0.3);
+footer{
+  border-top:1px solid var(--sep);padding:20px 40px;
+  display:flex;justify-content:space-between;
+  font-size:0.72rem;color:var(--dim);letter-spacing:1px;
+  position:relative;z-index:10;max-width:980px;margin:0 auto;
 }
 
-footer {
-  border-top: 1px solid var(--border);
-  padding: 2.5rem clamp(1.5rem, 8vw, 8rem);
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 1rem;
+/* BOOT */
+#boot{
+  position:fixed;inset:0;background:var(--bg);z-index:9999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity .9s ease;
 }
-.footer-left {
-  font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted);
-  letter-spacing: 0.08em;
-}
-.footer-left span { color: var(--accent); }
-.footer-right { display: flex; gap: 1.5rem; }
-.footer-link {
-  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--muted); transition: color 0.3s;
-}
-.footer-link:hover { color: var(--accent); }
+.boot-lbl{font-size:0.72rem;color:var(--dim);letter-spacing:3px;margin-bottom:28px;animation:fade-up .5s ease}
+.boot-box{width:460px;max-width:92vw;background:var(--bg1);border:1px solid var(--sep);border-radius:4px;overflow:hidden}
+.boot-box-head{padding:9px 18px;background:var(--bg2);border-bottom:1px solid var(--sep);font-size:0.74rem;color:var(--dim);letter-spacing:1.5px;display:flex;justify-content:space-between}
+.boot-rows-inner{padding:14px 18px}
+.boot-r{display:flex;gap:14px;padding:4px 0;font-size:0.76rem;opacity:0;animation:fade-left .25s ease forwards}
+.boot-r .ba{color:var(--dim);font-size:0.7rem;min-width:78px}
+.boot-r .bh{color:var(--green);font-size:0.7rem;flex:1;opacity:.8}
+.boot-r .bx{color:rgba(160,140,255,.7);font-size:0.7rem}
+.boot-prog{height:1px;background:rgba(56,189,248,.15);margin-top:18px}
+.boot-fill{height:1px;background:var(--blue);width:0;box-shadow:0 0 8px var(--blue);animation:bf 2.4s ease forwards .1s}
+@keyframes bf{to{width:100%}}
 
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* MOUSE PARTICLE */
+@keyframes float-particle{
+  0%{transform:translate(-50%,-50%) scale(1);opacity:.8}
+  100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(0);opacity:0}
 }
+.trail-dot{position:fixed;pointer-events:none;z-index:9998;border-radius:50%;transform:translate(-50%,-50%);mix-blend-mode:screen}
 
-[data-tooltip] { position: relative; }
-[data-tooltip]::after {
-  content: attr(data-tooltip);
-  position: absolute; bottom: calc(100% + 8px); left: 50%;
-  transform: translateX(-50%) scale(0.85);
-  background: var(--surface); border: 1px solid var(--border);
-  padding: 0.35rem 0.65rem; border-radius: 6px;
-  font-size: 0.7rem; color: var(--text); white-space: nowrap;
-  pointer-events: none; opacity: 0;
-  transition: opacity 0.2s, transform 0.2s;
-}
-[data-tooltip]:hover::after { opacity: 1; transform: translateX(-50%) scale(1); }
-
-/* ─── Responsive ─────────────────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  nav { padding: 0 1.5rem; }
-  .nav-links { display: none; }
-  .nav-hamburger { display: flex; }
-  #hero { padding: 0 1.5rem; }
-  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-  .contact-wrapper { grid-template-columns: 1fr; }
-  .projects-grid { grid-template-columns: 1fr; }
-  .about-stats { grid-template-columns: 1fr 1fr; }
-  footer { flex-direction: column; text-align: center; }
-  #cursor-dot, #cursor-ring { display: none; }
-  body { cursor: auto; }
-  .btn, .form-btn, .nav-hamburger { cursor: pointer; }
-}
-@media (max-width: 480px) {
-  .about-stats { grid-template-columns: 1fr; }
-  .hero-ctas { flex-direction: column; }
-  .btn { width: fit-content; }
+@media(max-width:720px){
+  .dp-body{grid-template-columns:1fr}
+  .dp-col:first-child{border-right:none;border-bottom:1px solid var(--sep)}
+  .reg-grid{grid-template-columns:1fr}
+  .pm-head,.pm-row{grid-template-columns:110px 56px 1fr}
+  .pm-sz,.pm-head span:nth-child(3){display:none}
+  .ct-grid{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:8px;text-align:center}
+  nav{padding:0 18px}
+  .nav-addr{display:none}
 }
 </style>
 </head>
 <body>
-<a href="#hero" class="skip-link">Skip to content</a>
-<div id="scroll-bar" role="progressbar" aria-label="Page scroll progress"></div>
-<div id="cursor-dot" aria-hidden="true"></div>
-<div id="cursor-ring" aria-hidden="true"></div>
-<canvas id="bg" aria-hidden="true"></canvas>
 
-<nav id="nav" role="navigation" aria-label="Main navigation">
-  <a href="#hero" class="nav-logo" aria-label="Home">KG<span>.</span></a>
-  <ul class="nav-links" role="list">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <button class="nav-hamburger" id="ham-btn" aria-label="Toggle mobile menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-
-<div class="nav-mobile" id="mobile-nav" role="dialog" aria-modal="true" aria-label="Mobile navigation">
-  <a href="#about" class="mobile-link">About</a>
-  <a href="#skills" class="mobile-link">Skills</a>
-  <a href="#projects" class="mobile-link">Projects</a>
-  <a href="#experience" class="mobile-link">Experience</a>
-  <a href="#contact" class="mobile-link">Contact</a>
+<div id="boot">
+  <div class="boot-lbl">linux/proc/kesavan/maps &#x2014; loading</div>
+  <div class="boot-box">
+    <div class="boot-box-head"><span>00000000&#x2013;ffffffff</span><span>rwxp /dev/kesavan</span></div>
+    <div class="boot-rows-inner" id="bri"></div>
+    <div class="boot-prog"><div class="boot-fill"></div></div>
+  </div>
 </div>
 
+<canvas id="bg-canvas"></canvas>
 
-<header id="hero" role="banner">
-  <p class="hero-eyebrow">// Available for opportunities</p>
-  <h1 class="hero-name">Kesavan<br><span class="accent-char">G</span></h1>
-  <div class="hero-roles">
-    <span id="typed-text"></span><span class="typed-cursor" aria-hidden="true"></span>
+<nav>
+  <div class="nav-id">Kesavan G</div>
+  <span class="nav-addr">0xc0000000:~/</span>
+  <div class="nav-r">
+    <a href="#skills" data-label="skills">skills</a>
+    <a href="#proc" data-label="proc">proc</a>
+    <a href="#contact" data-label="contact">contact</a>
+    <a href="https://github.com/Kesavan G" target="_blank" data-label="github &#x2197;">github &#x2197;</a>
   </div>
-  <p class="hero-desc">Building the edge — from Android kernels to Flutter apps, MQTT pipelines to container runtimes. Crafting systems that perform at the boundary of hardware and software.</p>
-  <div class="hero-ctas">
-    <a href="#projects" class="btn btn-primary"><i class="fa-solid fa-rocket" aria-hidden="true"></i> View Projects</a>
-    <a href="#contact" class="btn btn-outline"><i class="fa-regular fa-paper-plane" aria-hidden="true"></i> Get In Touch</a>
-  </div>
-  <div class="hero-scroll" aria-hidden="true">
-    <span>scroll</span>
-    <div class="scroll-line"></div>
-  </div>
-</header>
+</nav>
 
-<hr class="divider" />
+<main>
 
-<section id="about" class="section" aria-labelledby="about-heading">
-  <p class="section-label">01 — About</p>
-  <h2 class="section-title" id="about-heading">Who I Am</h2>
-  <div class="about-grid">
-    <div class="about-text">
-      <p>I'm <strong>Kesavan G</strong>, an Edge Systems & Mobile Developer based in India, with deep expertise in low-latency infrastructure and cross-platform mobile development.</p>
-      <p>My work spans the full stack of embedded-to-cloud: from building <strong>custom Android ROMs and kernels</strong> (AOSP), to architecting Flutter applications, to designing efficient <strong>Rust-based edge services</strong> communicating over MQTT.</p>
-      <p>I care deeply about systems that are lean, deterministic, and elegant — software that does exactly what it promises at the boundary of hardware and the cloud.</p>
-    </div>
-    <div class="about-stats" aria-label="Key statistics">
-      <div class="stat-card" role="figure" aria-label="5+ years experience">
-        <div class="stat-num">5+</div>
-        <div class="stat-lbl">Years Experience</div>
-      </div>
-      <div class="stat-card" role="figure" aria-label="10+ projects">
-        <div class="stat-num">10+</div>
-        <div class="stat-lbl">Projects Built</div>
-      </div>
-      <div class="stat-card" role="figure" aria-label="5+ open source contributions">
-        <div class="stat-num">5+</div>
-        <div class="stat-lbl">Open Source</div>
-      </div>
-      <div class="stat-card" role="figure" aria-label="8+ technologies">
-        <div class="stat-num">8+</div>
-        <div class="stat-lbl">Technologies</div>
-      </div>
+<section class="hero" id="hero">
+<div class="wrap">
+<div class="dump-panel">
+  <div class="scan"></div>
+  <div class="dp-bar">
+    <span style="color:var(--blue);font-size:0.84rem;letter-spacing:2px">hexdump /proc/self/exe</span>
+    <div class="dp-bar-r">
+      <div class="dbi"><div class="dot-live g"></div><span style="color:var(--green)">running</span></div>
+      <div class="dbi"><div class="dot-live" style="background:var(--amber)"></div><span style="color:var(--amber)">android14</span></div>
+      <div class="dbi"><div class="dot-live" style="background:var(--blue)"></div><span style="color:var(--blue)">aarch64</span></div>
     </div>
   </div>
+  <div class="dp-body">
+    <div class="dp-col">
+      <div class="hero-name" id="hero-name"></div>
+      <div class="hero-handle">@<b>Kesavan G</b> &middot; Coimbatore, IN</div>
+      <div class="tags">
+        <span class="tag g">ANDROID</span>
+        <span class="tag b">KERNEL</span>
+        <span class="tag a">SYSTEMS</span>
+      </div>
+      <div class="bio-rows">
+        <div class="br" style="animation-delay:.9s"><span class="br-ptr">0x08048010</span><span><span class="br-k">stack</span> = <span class="br-v">AOSP &middot; CAF &middot; device-tree &middot; HAL</span></span></div>
+        <div class="br" style="animation-delay:1.05s"><span class="br-ptr">0x08048020</span><span><span class="br-k">lang</span> = <span class="br-v">Kotlin &middot; Rust &middot; Python &middot; C</span></span></div>
+        <div class="br" style="animation-delay:1.2s"><span class="br-ptr">0x08048030</span><span><span class="br-k">depth</span> = <span class="br-s">"kernel &#x2192; HAL &#x2192; framework"</span></span></div>
+        <div class="br" style="animation-delay:1.35s"><span class="br-ptr">0x08048040</span><span><span class="br-k">loc</span> = <span class="br-s">"Coimbatore, Tamil Nadu"</span></span></div>
+        <div class="br" style="animation-delay:1.5s"><span class="br-ptr">0x08048050</span><span><span class="br-k">flag</span> = <span class="br-v">CLEAN | FAST | MAINTAINABLE</span><span class="sb-cursor"></span></span></div>
+      </div>
+    </div>
+    <div class="dp-col">
+      <div class="hd-colhead"><span>OFFSET</span><span>HEX</span><span>ASCII</span></div>
+      <div class="hrow" style="animation-delay:.65s"><span class="ha">00000000</span><span class="hh">4b 65 73 61 76 61 6e 20 47 00 00 00</span><span class="hasc">Kesavan.G...</span></div>
+      <div class="hrow" style="animation-delay:.78s"><span class="ha">00000010</span><span class="hh">41 4f 53 50 2f 43 41 46 20 52 4f 4d</span><span class="hasc">AOSP/CAF ROM</span></div>
+      <div class="hrow" style="animation-delay:.91s"><span class="ha">00000020</span><span class="hh">44 65 76 69 63 65 54 72 65 65 26 48</span><span class="hasc">DeviceTree&amp;H</span></div>
+      <div class="hrow" style="animation-delay:1.04s"><span class="ha">00000030</span><span class="hh">41 4c 73 26 4b 65 72 6e 65 6c 73 00</span><span class="hasc">ALs&amp;Kernels.</span></div>
+      <div class="hrow" style="animation-delay:1.17s"><span class="ha">00000040</span><span class="hh">52 75 73 74 43 4c 49 74 6f 6f 6c 73</span><span class="hasc">RustCLItools</span></div>
+      <div class="hrow" style="animation-delay:1.3s"><span class="ha">00000050</span><span class="hh">46 6c 75 74 74 65 72 4b 6f 74 6c 69</span><span class="hasc">FlutterKotli</span></div>
+      <div class="hrow" style="animation-delay:1.43s"><span class="ha">00000060</span><span class="hh">6e 46 61 73 74 41 50 49 44 6f 63 6b</span><span class="hasc">nFastAPIDock</span></div>
+      <div class="hrow" style="animation-delay:1.56s"><span class="ha">00000070</span><span class="hh">65 72 43 49 43 44 4c 69 6e 75 78 00</span><span class="hasc">erCICDLinux.</span></div>
+      <div class="hrow" style="animation-delay:1.69s"><span class="ha">00000080</span><span class="hh">43 6f 69 6d 62 61 74 6f 72 65 49 4e</span><span class="hasc">CoimbatoreIN</span></div>
+      <div class="hrow" style="animation-delay:1.82s"><span class="ha">00000090</span><span class="hh">ff ff ff ff ff ff ff ff ff ff ff ff</span><span class="hasc">............</span></div>
+    </div>
+  </div>
+  <div class="dp-cta">
+    <a href="https://github.com/Kesavan G" target="_blank" class="btn p">&#9654; github.com/Kesavan G</a>
+    <a href="https://linkedin.com/in/kesavan-g-505b43293" target="_blank" class="btn s">&#8599; linkedin</a>
+    <div class="uptime">uptime <span id="up">00:00:00</span></div>
+  </div>
+</div>
+</div>
 </section>
 
-<hr class="divider" />
+<section id="skills">
+<div class="wrap">
+  <div class="sec-bar reveal">
+    <span class="sb-cmd">cat</span>
+    <span class="sb-arg">/proc/kesavan/registers</span>
+    <span class="sb-r" style="color:var(--dim)">4 modules<span class="sb-cursor"></span></span>
+  </div>
+  <div class="reg-grid">
+    <div class="rb android reveal"><div class="rb-head"><span class="rb-name">ANDROID</span><span class="rb-addr">0xbfff0000</span></div><div class="rb-body">
+      <div class="rr"><span class="rr-n">r0</span><div class="rr-bar-wrap"><div class="rr-fill g" data-w="94"></div><span class="rr-lbl">AOSP / CAF ROM building</span></div></div>
+      <div class="rr"><span class="rr-n">r1</span><div class="rr-bar-wrap"><div class="rr-fill g" data-w="90"></div><span class="rr-lbl">device tree + vendor blobs</span></div></div>
+      <div class="rr"><span class="rr-n">r2</span><div class="rr-bar-wrap"><div class="rr-fill g" data-w="86"></div><span class="rr-lbl">HAL / HIDL / AIDL</span></div></div>
+      <div class="rr"><span class="rr-n">r3</span><div class="rr-bar-wrap"><div class="rr-fill g" data-w="88"></div><span class="rr-lbl">kernel config + debug</span></div></div>
+      <div class="rr"><span class="rr-n">r4</span><div class="rr-bar-wrap"><div class="rr-fill g" data-w="80"></div><span class="rr-lbl">Kotlin + Flutter</span></div></div>
+    </div></div>
+    <div class="rb python reveal" style="transition-delay:.1s"><div class="rb-head"><span class="rb-name">PYTHON</span><span class="rb-addr">0xbfff1000</span></div><div class="rb-body">
+      <div class="rr"><span class="rr-n">r0</span><div class="rr-bar-wrap"><div class="rr-fill b" data-w="88"></div><span class="rr-lbl">FastAPI / Flask</span></div></div>
+      <div class="rr"><span class="rr-n">r1</span><div class="rr-bar-wrap"><div class="rr-fill b" data-w="84"></div><span class="rr-lbl">automation + CLI</span></div></div>
+      <div class="rr"><span class="rr-n">r2</span><div class="rr-bar-wrap"><div class="rr-fill b" data-w="78"></div><span class="rr-lbl">SQLite + MySQL</span></div></div>
+      <div class="rr"><span class="rr-n">r3</span><div class="rr-bar-wrap"><div class="rr-fill b" data-w="75"></div><span class="rr-lbl">Linux scripting</span></div></div>
+    </div></div>
+    <div class="rb rust reveal" style="transition-delay:.18s"><div class="rb-head"><span class="rb-name">RUST</span><span class="rb-addr">0xbfff2000</span></div><div class="rb-body">
+      <div class="rr"><span class="rr-n">r0</span><div class="rr-bar-wrap"><div class="rr-fill r" data-w="80"></div><span class="rr-lbl">systems programming</span></div></div>
+      <div class="rr"><span class="rr-n">r1</span><div class="rr-bar-wrap"><div class="rr-fill r" data-w="74"></div><span class="rr-lbl">CLI utilities + FFI</span></div></div>
+      <div class="rr"><span class="rr-n">r2</span><div class="rr-bar-wrap"><div class="rr-fill r" data-w="70"></div><span class="rr-lbl">container runtimes</span></div></div>
+      <div class="rr"><span class="rr-n">r3</span><div class="rr-bar-wrap"><div class="rr-fill r" data-w="65"></div><span class="rr-lbl">perf-sensitive tooling</span></div></div>
+    </div></div>
+    <div class="rb ops reveal" style="transition-delay:.26s"><div class="rb-head"><span class="rb-name">CONTAINERS</span><span class="rb-addr">0xbfff3000</span></div><div class="rb-body">
+      <div class="rr"><span class="rr-n">r0</span><div class="rr-bar-wrap"><div class="rr-fill a" data-w="86"></div><span class="rr-lbl">Docker + containerd</span></div></div>
+      <div class="rr"><span class="rr-n">r1</span><div class="rr-bar-wrap"><div class="rr-fill a" data-w="82"></div><span class="rr-lbl">GitHub Actions + Jenkins</span></div></div>
+      <div class="rr"><span class="rr-n">r2</span><div class="rr-bar-wrap"><div class="rr-fill a" data-w="78"></div><span class="rr-lbl">CI/CD pipelines</span></div></div>
+      <div class="rr"><span class="rr-n">r3</span><div class="rr-bar-wrap"><div class="rr-fill a" data-w="90"></div><span class="rr-lbl">Linux-first shell</span></div></div>
+    </div></div>
+  </div>
+</div>
+</section>
 
+<section id="proc">
+<div class="wrap">
+  <div class="sec-bar reveal">
+    <span class="sb-cmd">cat</span>
+    <span class="sb-arg">/proc/kesavan/maps</span>
+    <span class="sb-r" style="color:var(--dim)">6 regions<span class="sb-cursor"></span></span>
+  </div>
+  <div class="proc-wrap reveal">
+    <div class="pm-head"><span>ADDRESS</span><span>PERMS</span><span>SIZE</span><span>REGION</span></div>
+    <div class="pm-row"><span class="pm-range">08048000&#x2013;08050000</span><span><span class="perm rx">r-xp</span></span><span class="pm-sz">32 KB</span><div><div class="pm-lbl">kernel customization</div><div class="pm-sub">KASAN &middot; UBSAN &middot; scheduler tuning &middot; defconfig</div></div></div>
+    <div class="pm-row"><span class="pm-range">08050000&#x2013;08060000</span><span><span class="perm rw">rw-p</span></span><span class="pm-sz">64 KB</span><div><div class="pm-lbl">Android ROM porting</div><div class="pm-sub">device tree authoring &middot; HAL bring-up &middot; vendor extraction</div></div></div>
+    <div class="pm-row"><span class="pm-range">08060000&#x2013;08068000</span><span><span class="perm rx">r-xp</span></span><span class="pm-sz">32 KB</span><div><div class="pm-lbl">Weather App &mdash; Flutter</div><div class="pm-sub">Dart + C++ &middot; cross-platform &middot; released</div></div></div>
+    <div class="pm-row"><span class="pm-range">08068000&#x2013;08070000</span><span><span class="perm rw">rw-p</span></span><span class="pm-sz">32 KB</span><div><div class="pm-lbl">microservice design</div><div class="pm-sub">async runtimes &middot; gRPC &middot; FastAPI + Tokio</div></div></div>
+    <div class="pm-row"><span class="pm-range">08070000&#x2013;08078000</span><span><span class="perm ro">r--p</span></span><span class="pm-sz">32 KB</span><div><div class="pm-lbl">container internals</div><div class="pm-sub">eBPF tracing &middot; OCI spec &middot; low-level networking</div></div></div>
+    <div class="pm-row"><span class="pm-range">bfff0000&#x2013;c0000000</span><span><span class="perm rw">rwxp</span></span><span class="pm-sz">1 MB</span><div><div class="pm-lbl">KernelSU + LTO patches</div><div class="pm-sub">clang &middot; PGO &middot; GCC fallback &middot; aarch64</div></div></div>
+  </div>
+</div>
+</section>
 
-<section id="skills" class="section" aria-labelledby="skills-heading">
-  <p class="section-label">02 — Skills</p>
-  <h2 class="section-title" id="skills-heading">Technical Stack</h2>
-  <p class="section-sub">A curated set of tools I use to build resilient, performant systems from the hardware layer up.</p>
-  <div class="skills-container">
-    <div class="skills-category">
-      <p class="skills-cat-title">Systems & Backend</p>
-      <div class="skills-grid">
-        <div class="skill-card" data-tooltip="Scripting & automation" role="listitem">
-          <i class="fa-brands fa-python" aria-hidden="true"></i>
-          <span class="skill-name">Python</span>
-          <div class="skill-bar"><div class="skill-bar-fill" style="--w:90%"></div></div>
-        </div>
-        <div class="skill-card" data-tooltip="IoT messaging protocol" role="listitem">
-          <i class="fa-solid fa-satellite" aria-hidden="true"></i>
-          <span class="skill-name">MQTT</span>
-          <div class="skill-bar"><div class="skill-bar-fill" style="--w:80%"></div></div>
-        </div>
-        <div class="skill-card" data-tooltip="Container runtimes" role="listitem">
-          <i class="fa-brands fa-docker" aria-hidden="true"></i>
-          <span class="skill-name">Containers</span>
-          <div class="skill-bar"><div class="skill-bar-fill" style="--w:75%"></div></div>
-        </div>
-        <div class="skill-card" data-tooltip="Linux systems" role="listitem">
-          <i class="fa-brands fa-linux" aria-hidden="true"></i>
-          <span class="skill-name">Linux</span>
-          <div class="skill-bar"><div class="skill-bar-fill" style="--w:92%"></div></div>
-        </div>
-        <div class="skill-card" data-tooltip="Systems programming" role="listitem">
-          <i class="fa-brands fa-rust" aria-hidden="true"></i>
-          <span class="skill-name">Rust</span>
-          <div class="skill-bar"><div class="skill-bar-fill" style="--w:85%"></div></div>
-        </div>
-      </div>
+<section id="contact">
+<div class="wrap">
+  <div class="sec-bar reveal">
+    <span class="sb-cmd">nc</span>
+    <span class="sb-arg">Kesavan G.dev 22</span>
+    <span class="sb-r" style="color:var(--green)">port open<span class="sb-cursor" style="background:var(--green)"></span></span>
+  </div>
+  <div class="ct-grid">
+    <div class="ct-card reveal">
+      <div class="ct-lbl">// GITHUB</div>
+      <div class="ct-val">Kesavan G</div>
+      <div class="ct-sub">87 repos &middot; Android &middot; Flutter &middot; Rust</div>
+      <a href="https://github.com/Kesavan G" target="_blank" class="ct-link">&#9654; view profile</a>
     </div>
-    <div class="skills-category">
-      <p class="skills-cat-title">Mobile & Android</p>
-      <div class="skills-grid">
-        <div class="skill-card" data-tooltip="Cross-platform apps" role="listitem">
-          <i class="fa-brands fa-google-play" aria-hidden="true"></i>
-          <span class="skill-name">Flutter</span>
-          <div class="skill-bar"><div class="skill-bar-fill" style="--w:88%"></div></div>
-        </div>
-        <div class="skill-card" data-tooltip="AOSP ROM development" role="listitem">
-          <i class="fa-brands fa-android" aria-hidden="true"></i>
-          <span class="skill-name">AOSP</span>
-          <div class="skill-bar"><div class="skill-bar-fill" style="--w:82%"></div></div>
-        </div>
-        <div class="skill-card" data-tooltip="Android kernel work" role="listitem">
-          <i class="fa-solid fa-microchip" aria-hidden="true"></i>
-          <span class="skill-name">Kernel</span>
-          <div class="skill-bar"><div class="skill-bar-fill" style="--w:78%"></div></div>
-        </div>
-        <div class="skill-card" data-tooltip="Native Android apps" role="listitem">
-          <i class="fa-brands fa-korvue" aria-hidden="true"></i>
-          <span class="skill-name">Kotlin</span>
-          <div class="skill-bar"><div class="skill-bar-fill" style="--w:76%"></div></div>
-        </div>
-        <div class="skill-card" data-tooltip="iOS development" role="listitem">
-          <i class="fa-brands fa-apple" aria-hidden="true"></i>
-          <span class="skill-name">iOS</span>
-          <div class="skill-bar"><div class="skill-bar-fill" style="--w:65%"></div></div>
-        </div>
+    <div class="ct-card reveal" style="transition-delay:.1s">
+      <div class="ct-lbl">// LINKEDIN</div>
+      <div class="ct-val">Kesavan G</div>
+      <div class="ct-sub">Android Developer &middot; Kotlin &middot; Flutter</div>
+      <a href="https://linkedin.com/in/kesavan-g-505b43293" target="_blank" class="ct-link g">&#8599; connect</a>
+    </div>
+    <div class="ct-card reveal" style="grid-column:1/-1;transition-delay:.2s">
+      <div class="ct-lbl">// KERNEL INTERESTS</div>
+      <div style="font-size:0.86rem;line-height:2.1;color:var(--text);margin-top:10px">
+        Device ports &middot; AOSP trees &middot; kernel bring-ups &middot; Rust systems tooling.<br>
+        <span style="color:var(--bright)">Got something interesting? Let's go deep.</span>
       </div>
     </div>
   </div>
+</div>
 </section>
 
-<hr class="divider" />
-
-<section id="projects" class="section" aria-labelledby="projects-heading">
-  <p class="section-label">03 — Projects</p>
-  <h2 class="section-title" id="projects-heading">Selected Work</h2>
-  <p class="section-sub">A snapshot of what I've been building — from edge infrastructure to end-user mobile apps.</p>
-  <div class="projects-grid" role="list">
-
-    <article class="project-card" role="listitem">
-      <div class="project-icon" aria-hidden="true"><i class="fa-solid fa-file-invoice-dollar"></i></div>
-      <h3 class="project-name">Bills2Go</h3>
-      <p class="project-desc">A fast, intuitive POS and billing application for small businesses. Offline-first architecture with local data sync and GST-compliant invoice generation.</p>
-      <div class="project-tags">
-        <span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">SQLite</span><span class="tag">POS</span>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/kesavan-hex" class="project-link" target="_blank" rel="noopener">
-          <i class="fa-brands fa-github"></i> Source
-        </a>
-      </div>
-    </article>
-
-    <article class="project-card" role="listitem">
-      <div class="project-icon" aria-hidden="true"><i class="fa-solid fa-network-wired"></i></div>
-      <h3 class="project-name">BizzNet</h3>
-      <p class="project-desc">Business networking platform connecting local SMEs. Real-time messaging, company profiles, and analytics dashboard built with Flutter and Firebase.</p>
-      <div class="project-tags">
-        <span class="tag">Flutter</span><span class="tag">Firebase</span><span class="tag">RTDB</span>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/kesavan-hex" class="project-link" target="_blank" rel="noopener">
-          <i class="fa-brands fa-github"></i> Source
-        </a>
-      </div>
-    </article>
-
-    <article class="project-card" role="listitem">
-      <div class="project-icon" aria-hidden="true"><i class="fa-solid fa-layer-group"></i></div>
-      <h3 class="project-name">Edge Runtime</h3>
-      <p class="project-desc">Lightweight edge runtime for deploying workloads on ARM devices. Features a Go orchestrator communicating over MQTT brokers.</p>
-      <div class="project-tags">
-        <span class="tag">Rust</span><span class="tag">MQTT</span><span class="tag">Go</span><span class="tag">ARM</span>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/kesavan-hex" class="project-link" target="_blank" rel="noopener">
-          <i class="fa-brands fa-github"></i> Source
-        </a>
-      </div>
-    </article>
-
-    <article class="project-card" role="listitem">
-      <div class="project-icon" aria-hidden="true"><i class="fa-brands fa-android"></i></div>
-      <h3 class="project-name">Custom AOSP ROM</h3>
-      <p class="project-desc">Custom Android ROM built on AOSP with performance-tuned kernel patches, improved scheduler configs, and stripped bloatware for a clean mobile experience.</p>
-      <div class="project-tags">
-        <span class="tag">AOSP</span><span class="tag">Linux</span><span class="tag">C</span><span class="tag">Kernel</span>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/kesavan-hex" class="project-link" target="_blank" rel="noopener">
-          <i class="fa-brands fa-github"></i> Source
-        </a>
-      </div>
-    </article>
-
-    <article class="project-card" role="listitem">
-      <div class="project-icon" aria-hidden="true"><i class="fa-solid fa-robot"></i></div>
-      <h3 class="project-name">Python Automation Suite</h3>
-      <p class="project-desc">Collection of DevOps automation scripts: CI pipeline helpers, log parsing tools, device farm management, and automated APK signing workflows.</p>
-      <div class="project-tags">
-        <span class="tag">Python</span><span class="tag">CI/CD</span><span class="tag">DevOps</span>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/kesavan-hex" class="project-link" target="_blank" rel="noopener">
-          <i class="fa-brands fa-github"></i> Source
-        </a>
-      </div>
-    </article>
-
-  </div>
-</section>
-
-<hr class="divider" />
-
-
-<section id="contact" class="section" aria-labelledby="contact-heading">
-  <p class="section-label">05 — Contact</p>
-  <h2 class="section-title" id="contact-heading">Let's Connect</h2>
-  <div class="contact-wrapper">
-    <div class="contact-info">
-      <h3>Open to Opportunities</h3>
-      <p>Whether it's a full-time role, a freelance project, or just a conversation about edge systems and mobile dev — I'm always happy to connect.</p>
-      <div class="contact-list" role="list">
-        <a href="mailto:kesavang091999@gmail.com" class="contact-item" role="listitem">
-          <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-          <div class="contact-item-body">
-            <span class="contact-item-label">Email</span>
-            <span class="contact-item-val">kesavang091999@gmail.com</span>
-          </div>
-        </a>
-        <a href="https://www.linkedin.com/in/kesavan-g-505b43293/" target="_blank" rel="noopener" class="contact-item" role="listitem">
-          <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
-          <div class="contact-item-body">
-            <span class="contact-item-label">LinkedIn</span>
-            <span class="contact-item-val">kesavan-g-505b43293</span>
-          </div>
-        </a>
-        <a href="https://github.com/kesavan-hex" target="_blank" rel="noopener" class="contact-item" role="listitem">
-          <i class="fa-brands fa-github" aria-hidden="true"></i>
-          <div class="contact-item-body">
-            <span class="contact-item-label">GitHub</span>
-            <span class="contact-item-val">kesavan-hex</span>
-          </div>
-        </a>
-      </div>
-      <div class="contact-social" aria-label="Social media links">
-        <a href="https://github.com/kesavan-hex" target="_blank" rel="noopener" class="social-btn" aria-label="GitHub profile">
-          <i class="fa-brands fa-github" aria-hidden="true"></i>
-        </a>
-        <a href="https://www.linkedin.com/in/kesavan-g-505b43293/" target="_blank" rel="noopener" class="social-btn" aria-label="LinkedIn profile">
-          <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
-        </a>
-        <a href="mailto:kesavang091999@gmail.com" class="social-btn" aria-label="Send email">
-          <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-        </a>
-      </div>
-    </div>
-
-    <div class="contact-form-side" role="form" aria-labelledby="form-title">
-      <h3 class="form-title" id="form-title">Send a Message</h3>
-      <div class="form-group">
-        <label for="cf-name">Your Name</label>
-        <input class="form-control" type="text" id="cf-name" placeholder="e.g. Ravi Kumar" autocomplete="name" />
-      </div>
-      <div class="form-group">
-        <label for="cf-email">Email Address</label>
-        <input class="form-control" type="email" id="cf-email" placeholder="your@email.com" autocomplete="email" />
-      </div>
-      <div class="form-group">
-        <label for="cf-msg">Message</label>
-        <textarea class="form-control" id="cf-msg" rows="4" placeholder="What are you working on?"></textarea>
-      </div>
-      <button class="form-btn" type="button" id="send-btn" aria-label="Send message">
-        <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send Message
-      </button>
-    </div>
-  </div>
-</section>
-
-
-<footer role="contentinfo">
-  <p class="footer-left">© 2026 <span>Kesavan G</span> — Built with precision &amp; ❤️</p>
-  <nav class="footer-right" aria-label="Footer navigation">
-    <a href="#about"    class="footer-link">About</a>
-    <a href="#skills"   class="footer-link">Skills</a>
-    <a href="#projects" class="footer-link">Projects</a>
-    <a href="#contact"  class="footer-link">Contact</a>
-  </nav>
+<div class="wrap">
+<footer>
+  <span>&copy; 2026 Kesavan G</span>
+  <span>aarch64 &middot; android14 &middot; all pages mapped</span>
 </footer>
+</div>
+</main>
 
 <script>
-
-const dot  = document.getElementById('cursor-dot');
-const ring = document.getElementById('cursor-ring');
-let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
-function animCursor() {
-  rx += (mx - rx) * 0.12;
-  ry += (my - ry) * 0.12;
-  dot.style.transform  = `translate(${mx-3}px, ${my-3}px)`;
-  ring.style.transform = `translate(${rx-18}px, ${ry-18}px)`;
-  requestAnimationFrame(animCursor);
-}
-animCursor();
-
-const bar = document.getElementById('scroll-bar');
-window.addEventListener('scroll', () => {
-  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
-  bar.style.width = pct + '%';
-  bar.setAttribute('aria-valuenow', Math.round(pct));
-}, { passive: true });
-
-
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 40);
-}, { passive: true });
-
-
-const hamBtn    = document.getElementById('ham-btn');
-const mobileNav = document.getElementById('mobile-nav');
-let navOpen = false;
-function toggleNav() {
-  navOpen = !navOpen;
-  mobileNav.classList.toggle('open', navOpen);
-  hamBtn.setAttribute('aria-expanded', navOpen);
-  const spans = hamBtn.querySelectorAll('span');
-  if (navOpen) {
-    spans[0].style.transform = 'rotate(45deg) translate(4px, 4px)';
-    spans[1].style.opacity   = '0';
-    spans[2].style.transform = 'rotate(-45deg) translate(4px, -4px)';
-  } else {
-    spans[0].style.transform = '';
-    spans[1].style.opacity   = '';
-    spans[2].style.transform = '';
-  }
-}
-hamBtn.addEventListener('click', toggleNav);
-document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => { if(navOpen) toggleNav(); }));
-
-const roles = [
-  'Edge Systems Developer',
-  'Flutter & Mobile Engineer',
-  'Android ROM Builder',
-  'Rust Systems Programmer',
-  'AOSP / Kernel Hacker',
-  'Python Automation Expert',
-];
-let ri = 0, ci = 0, deleting = false;
-const typedEl = document.getElementById('typed-text');
-function type() {
-  const current = roles[ri];
-  if (!deleting) {
-    typedEl.textContent = current.slice(0, ++ci);
-    if (ci === current.length) { deleting = true; setTimeout(type, 1800); return; }
-  } else {
-    typedEl.textContent = current.slice(0, --ci);
-    if (ci === 0) { deleting = false; ri = (ri + 1) % roles.length; }
-  }
-  setTimeout(type, deleting ? 40 : 65);
-}
-setTimeout(type, 1200);
-
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-}, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
-document.querySelectorAll('.section').forEach(s => obs.observe(s));
-
-
-(function() {
-  const c   = document.getElementById('bg');
-  const ctx = c.getContext('2d');
-  let W, H, pts;
-
-  function resize() {
-    W = c.width  = window.innerWidth;
-    H = c.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', () => { resize(); buildPts(); }, { passive: true });
-
-  function buildPts() {
-    const count = Math.min(Math.floor((W * H) / 12000), 90);
-    pts = Array.from({ length: count }, () => ({
-      x:  Math.random() * W,  y:  Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: (Math.random() - 0.5) * 0.35,
-      r:  Math.random() * 1.2 + 0.5,
-    }));
-  }
-  buildPts();
-
-  const mouse = { x: -9999, y: -9999 };
-  document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
-
-  const CONN = 130, MOUSE_R = 110;
-
-  function frame() {
-    ctx.clearRect(0, 0, W, H);
-
-
-    pts.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
-      const dx = p.x - mouse.x, dy = p.y - mouse.y;
-      if (Math.hypot(dx, dy) < MOUSE_R) {
-        p.x += dx * 0.02; p.y += dy * 0.02;
-      }
-    });
-
-
-    for (let i = 0; i < pts.length; i++) {
-      for (let j = i + 1; j < pts.length; j++) {
-        const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
-        const d  = Math.hypot(dx, dy);
-        if (d < CONN) {
-          const alpha = (1 - d / CONN) * 0.25;
-          ctx.beginPath();
-          ctx.moveTo(pts[i].x, pts[i].y);
-          ctx.lineTo(pts[j].x, pts[j].y);
-          ctx.strokeStyle = `rgba(0,229,255,${alpha})`;
-          ctx.lineWidth   = 0.6;
-          ctx.stroke();
-        }
-      }
-    }
-
-
-    pts.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(0,229,255,0.5)';
-      ctx.fill();
-    });
-
-    requestAnimationFrame(frame);
-  }
-  frame();
-})();
-
-/* ─── Contact Form (simulated) ───────────────────────────────────────────── */
-document.getElementById('send-btn').addEventListener('click', function() {
-  const name  = document.getElementById('cf-name').value.trim();
-  const email = document.getElementById('cf-email').value.trim();
-  const msg   = document.getElementById('cf-msg').value.trim();
-  if (!name || !email || !msg) {
-    this.textContent = '⚠ Fill all fields'; this.style.background = '#f59e0b';
-    setTimeout(() => {
-      this.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Message';
-      this.style.background = '';
-    }, 2000);
-    return;
-  }
-  this.innerHTML = '✓ Message Sent!'; this.style.background = '#10b981';
-  setTimeout(() => {
-    this.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Message';
-    this.style.background = '';
-    document.getElementById('cf-name').value  = '';
-    document.getElementById('cf-email').value = '';
-    document.getElementById('cf-msg').value   = '';
-  }, 3000);
-});
-
-/* ─── Keyboard navigation for sections ──────────────────────────────────── */
-document.querySelectorAll('.nav-links a, .mobile-link').forEach(a => {
-  a.addEventListener('keydown', e => {
-    if (e.key === 'Enter') { if(navOpen) toggleNav(); }
+/* BG: grid + particle network */
+const bgC=document.getElementById('bg-canvas');
+const bgX=bgC.getContext('2d');
+let W,H,nodes=[];
+function resize(){W=bgC.width=innerWidth;H=bgC.height=innerHeight;initNodes()}
+function initNodes(){
+  nodes=[];
+  const count=Math.min(Math.floor(W*H/16000),80);
+  for(let i=0;i<count;i++)nodes.push({
+    x:Math.random()*W,y:Math.random()*H,
+    vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,
+    r:Math.random()*.7+.3,t:Math.random()>.7?1:0,
+    life:Math.random()*300+100,ml:400
   });
+}
+resize();addEventListener('resize',resize);
+function drawGrid(){
+  bgX.strokeStyle='rgba(56,189,248,0.025)';bgX.lineWidth=.5;
+  const gs=60;
+  for(let x=0;x<W;x+=gs){bgX.beginPath();bgX.moveTo(x,0);bgX.lineTo(x,H);bgX.stroke()}
+  for(let y=0;y<H;y+=gs){bgX.beginPath();bgX.moveTo(0,y);bgX.lineTo(W,y);bgX.stroke()}
+}
+function bgFrame(){
+  bgX.clearRect(0,0,W,H);drawGrid();
+  nodes.forEach(n=>{
+    n.x+=n.vx;n.y+=n.vy;n.life--;
+    if(n.life<=0||n.x<0||n.x>W||n.y<0||n.y>H){n.x=Math.random()*W;n.y=Math.random()*H;n.life=n.ml}
+    const a=(n.life/n.ml)*.45;
+    bgX.beginPath();bgX.arc(n.x,n.y,n.r,0,Math.PI*2);
+    bgX.fillStyle=n.t?`rgba(61,220,132,${a})`:`rgba(56,189,248,${a})`;bgX.fill();
+  });
+  for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){
+    const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<100){bgX.beginPath();bgX.moveTo(nodes[i].x,nodes[i].y);bgX.lineTo(nodes[j].x,nodes[j].y);bgX.strokeStyle=`rgba(56,189,248,${(1-d/100)*.06})`;bgX.lineWidth=.5;bgX.stroke()}
+  }
+  requestAnimationFrame(bgFrame);
+}
+bgFrame();
+
+/* Mouse trail particles */
+function spawnTrail(x,y){
+  const d=document.createElement('div');
+  d.className='trail-dot';
+  const size=Math.random()*4+2;
+  const cols=['rgba(56,189,248,','rgba(61,220,132,','rgba(167,139,250,'];
+  const col=cols[Math.floor(Math.random()*cols.length)];
+  const dx=(Math.random()-.5)*40+'px',dy=(Math.random()-.5)*40+'px';
+  d.style.cssText=`left:${x}px;top:${y}px;width:${size}px;height:${size}px;background:${col}.9);--dx:${dx};--dy:${dy};animation:float-particle .7s ease forwards`;
+  document.body.appendChild(d);setTimeout(()=>d.remove(),700);
+}
+document.addEventListener('mousemove',e=>{if(Math.random()>.55)spawnTrail(e.clientX,e.clientY)});
+document.addEventListener('click',e=>{for(let i=0;i<14;i++)setTimeout(()=>spawnTrail(e.clientX,e.clientY),i*18)});
+
+/* Name char-by-char */
+const nameEl=document.getElementById('hero-name');
+'Kesavan'.split('').forEach((ch,i)=>{
+  const s=document.createElement('span');
+  s.className='char'+(i>=4?' blue':'');
+  s.textContent=ch;s.style.animationDelay=`${0.55+i*0.07}s`;
+  nameEl.appendChild(s);
 });
+
+/* 3D tilt on skill cards */
+document.querySelectorAll('.rb').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const dx=(e.clientX-r.left-r.width/2)/r.width;
+    const dy=(e.clientY-r.top-r.height/2)/r.height;
+    card.style.transform=`perspective(700px) rotateY(${dx*9}deg) rotateX(${-dy*9}deg) translateY(-3px)`;
+  });
+  card.addEventListener('mouseleave',()=>{card.style.transform=''});
+});
+
+/* Boot */
+const bd=[
+  ['00000000','4b 65 73 61 76 61 6e 2d 48 65 78','Kesavan G'],
+  ['00000010','6b 65 72 6e 65 6c 20 69 6e 69 74','kernel init'],
+  ['00000020','41 4f 53 50 20 62 6f 6f 74 20 6f','AOSP boot o'],
+  ['00000030','64 74 72 65 65 20 6d 6f 75 6e 74','dtree mount'],
+  ['00000040','48 41 4c 20 62 72 69 6e 67 75 70','HAL bringup'],
+];
+const bri=document.getElementById('bri');
+bd.forEach((r,i)=>{
+  const d=document.createElement('div');d.className='boot-r';d.style.animationDelay=`${i*.24}s`;
+  d.innerHTML=`<span class="ba">${r[0]}</span><span class="bh">${r[1]}</span><span class="bx">${r[2]}</span>`;
+  bri.appendChild(d);
+});
+const bootEl=document.getElementById('boot');
+setTimeout(()=>{bootEl.style.opacity='0';setTimeout(()=>bootEl.style.display='none',900)},2600);
+
+/* Uptime */
+const t0=Date.now();
+setInterval(()=>{
+  const s=Math.floor((Date.now()-t0)/1000);
+  const el=document.getElementById('up');
+  if(el)el.textContent=`${String(Math.floor(s/3600)).padStart(2,'0')}:${String(Math.floor(s%3600/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+},1000);
+
+/* Scroll reveal */
+const ro=new IntersectionObserver(en=>{
+  en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+/* Skill bars */
+const fills=document.querySelectorAll('.rr-fill');
+const ws=[...fills].map(f=>f.dataset.w+'%');
+fills.forEach(f=>f.style.width='0');
+const bo=new IntersectionObserver(en=>{
+  en.forEach(e=>{
+    if(e.isIntersecting){
+      const i=[...fills].indexOf(e.target);
+      if(i>=0)setTimeout(()=>e.target.style.width=ws[i],i*45);
+      bo.unobserve(e.target);
+    }
+  });
+},{threshold:.1});
+fills.forEach(f=>bo.observe(f));
 </script>
 </body>
 </html>
